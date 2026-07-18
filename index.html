@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUNA // 3D Space Invaders</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>👾</text></svg>">
+<style>
+  :root {
+    --neon: #27e8ff;
+    --neon-dim: #0e7a8a;
+    --danger: #ff3b6b;
+    --gold: #ffd257;
+    --ok: #5dff8f;
+    --bg: #030612;
+    --panel: rgba(6, 14, 32, 0.92);
+    --border: rgba(39, 232, 255, 0.35);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); }
+  body {
+    font-family: "Lucida Console", Monaco, "Courier New", monospace;
+    color: #cfeefe;
+    user-select: none;
+  }
+  #game-canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  .overlay {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(ellipse at center, rgba(3,6,18,0.55) 0%, rgba(3,6,18,0.92) 100%);
+    z-index: 10;
+  }
+  .hidden { display: none !important; }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 32px 40px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(39, 232, 255, 0.15), inset 0 0 60px rgba(39, 232, 255, 0.04);
+    max-width: 860px;
+    width: min(92vw, 860px);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  h1.title {
+    font-size: clamp(28px, 6vw, 56px);
+    letter-spacing: 0.28em;
+    color: var(--neon);
+    text-shadow: 0 0 18px rgba(39, 232, 255, 0.8);
+    margin-bottom: 4px;
+  }
+  .subtitle { letter-spacing: 0.5em; font-size: 13px; color: #6fa8bd; margin-bottom: 28px; }
+
+  .btn {
+    font-family: inherit;
+    display: inline-block;
+    background: transparent;
+    color: var(--neon);
+    border: 1px solid var(--neon);
+    border-radius: 6px;
+    padding: 12px 34px;
+    margin: 6px;
+    font-size: 15px;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+  .btn:hover { background: rgba(39, 232, 255, 0.15); box-shadow: 0 0 16px rgba(39, 232, 255, 0.5); }
+  .btn:active { transform: scale(0.97); }
+  .btn.primary { background: rgba(39, 232, 255, 0.12); font-weight: bold; }
+  .btn.gold { color: var(--gold); border-color: var(--gold); }
+  .btn.gold:hover { background: rgba(255, 210, 87, 0.12); box-shadow: 0 0 16px rgba(255, 210, 87, 0.4); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+  .btn:disabled:hover { background: transparent; }
+
+  .stat-line { font-size: 14px; color: #8fc7dd; margin: 6px 0; letter-spacing: 0.1em; }
+  .stat-line b { color: var(--gold); }
+
+  /* ---------- HUD ---------- */
+  #hud {
+    position: fixed; inset: 0; pointer-events: none; z-index: 5;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 16px 22px;
+    font-size: 14px; letter-spacing: 0.12em;
+  }
+  .hud-row { display: flex; justify-content: space-between; align-items: flex-start; }
+  .hud-box {
+    background: rgba(4, 10, 24, 0.6);
+    border: 1px solid rgba(39, 232, 255, 0.25);
+    border-radius: 6px;
+    padding: 8px 14px;
+    text-shadow: 0 0 8px rgba(39, 232, 255, 0.6);
+  }
+  .hud-label { font-size: 10px; color: #5f93a8; letter-spacing: 0.25em; }
+  .hud-value { font-size: 18px; color: var(--neon); }
+  #hud-credits .hud-value { color: var(--gold); text-shadow: 0 0 8px rgba(255, 210, 87, 0.6); }
+  #hud-hull-blocks { display: flex; gap: 4px; margin-top: 4px; }
+  .hull-pip { width: 14px; height: 8px; background: var(--ok); border-radius: 2px; box-shadow: 0 0 6px rgba(93, 255, 143, 0.7); }
+  .hull-pip.empty { background: rgba(93, 255, 143, 0.12); box-shadow: none; }
+  .hull-pip.low { background: var(--danger); box-shadow: 0 0 6px rgba(255, 59, 107, 0.7); }
+  #hud-bottom { text-align: center; align-self: center; color: #46788c; font-size: 11px; letter-spacing: 0.2em; }
+
+  /* ---------- Wave banner ---------- */
+  #wave-banner {
+    position: fixed; top: 38%; left: 0; right: 0; text-align: center;
+    font-size: clamp(26px, 5vw, 44px); letter-spacing: 0.45em; color: var(--neon);
+    text-shadow: 0 0 24px rgba(39, 232, 255, 0.9);
+    z-index: 6; pointer-events: none;
+    opacity: 0; transition: opacity 0.4s;
+  }
+  #wave-banner.show { opacity: 1; }
+
+  /* ---------- Shop ---------- */
+  #shop-panel { text-align: left; }
+  .shop-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+  .shop-header h2 { color: var(--neon); letter-spacing: 0.3em; font-size: 22px; text-shadow: 0 0 12px rgba(39,232,255,0.6); }
+  #shop-credits { font-size: 18px; color: var(--gold); text-shadow: 0 0 10px rgba(255,210,87,0.5); letter-spacing: 0.1em; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+  .tab {
+    font-family: inherit; flex: 1; padding: 10px; background: transparent; cursor: pointer;
+    border: 1px solid rgba(39,232,255,0.25); border-radius: 6px;
+    color: #6fa8bd; letter-spacing: 0.25em; font-size: 13px; text-transform: uppercase;
+  }
+  .tab.active { color: var(--neon); border-color: var(--neon); background: rgba(39,232,255,0.1); }
+
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  .card {
+    border: 1px solid rgba(39,232,255,0.25); border-radius: 8px; padding: 16px;
+    background: rgba(8, 18, 38, 0.7);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .card.equipped { border-color: var(--ok); box-shadow: 0 0 14px rgba(93,255,143,0.25); }
+  .card h3 { color: var(--neon); letter-spacing: 0.15em; font-size: 16px; }
+  .card .ship-class { font-size: 10px; color: #5f93a8; letter-spacing: 0.3em; }
+  .card .desc { font-size: 12px; color: #86b6cb; line-height: 1.5; min-height: 3em; }
+  .statbar { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #5f93a8; }
+  .statbar .bar { flex: 1; height: 6px; background: rgba(39,232,255,0.1); border-radius: 3px; overflow: hidden; }
+  .statbar .fill { height: 100%; background: var(--neon); box-shadow: 0 0 6px rgba(39,232,255,0.6); }
+  .statbar .label { width: 62px; letter-spacing: 0.1em; }
+  .card .price { color: var(--gold); font-size: 14px; letter-spacing: 0.1em; }
+  .card .btn { margin: 4px 0 0; padding: 9px 0; width: 100%; font-size: 13px; }
+
+  .upg-row {
+    display: flex; align-items: center; gap: 16px;
+    border: 1px solid rgba(39,232,255,0.25); border-radius: 8px;
+    padding: 14px 18px; margin-bottom: 12px; background: rgba(8,18,38,0.7);
+    flex-wrap: wrap;
+  }
+  .upg-info { flex: 1; min-width: 200px; }
+  .upg-info h3 { color: var(--neon); font-size: 15px; letter-spacing: 0.12em; }
+  .upg-info .desc { font-size: 12px; color: #86b6cb; margin-top: 4px; }
+  .upg-effect { font-size: 11px; color: var(--ok); margin-top: 3px; letter-spacing: 0.06em; }
+  .pips { display: flex; gap: 5px; }
+  .pip { width: 16px; height: 16px; border: 1px solid var(--neon-dim); border-radius: 3px; }
+  .pip.filled { background: var(--neon); box-shadow: 0 0 8px rgba(39,232,255,0.7); border-color: var(--neon); }
+  .upg-row .btn { min-width: 150px; padding: 9px 12px; font-size: 12px; margin: 0; }
+
+  .shop-footer { margin-top: 20px; text-align: center; }
+
+  /* ---------- Game over ---------- */
+  #gameover-title { color: var(--danger); text-shadow: 0 0 20px rgba(255,59,107,0.8); letter-spacing: 0.3em; font-size: clamp(26px, 5vw, 44px); margin-bottom: 18px; }
+
+  #pause-overlay .panel { padding: 26px 48px; }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--neon-dim); border-radius: 4px; }
+</style>
+</head>
+<body>
+<canvas id="game-canvas"></canvas>
+
+<!-- HUD -->
+<div id="hud" class="hidden">
+  <div class="hud-row">
+    <div style="display:flex; gap:10px;">
+      <div class="hud-box" id="hud-score"><div class="hud-label">SCORE</div><div class="hud-value" id="hud-score-val">0</div></div>
+      <div class="hud-box" id="hud-wave"><div class="hud-label">WAVE</div><div class="hud-value" id="hud-wave-val">1</div></div>
+    </div>
+    <div style="display:flex; gap:10px;">
+      <div class="hud-box" id="hud-credits"><div class="hud-label">CREDITS</div><div class="hud-value" id="hud-credits-val">0</div></div>
+      <div class="hud-box"><div class="hud-label">HULL</div><div id="hud-hull-blocks"></div></div>
+    </div>
+  </div>
+  <div id="hud-bottom">◀ ▶ / A D — MOVE&nbsp;&nbsp;&nbsp;SPACE — FIRE&nbsp;&nbsp;&nbsp;P — PAUSE</div>
+</div>
+
+<div id="wave-banner"></div>
+
+<!-- Main menu -->
+<div id="menu-overlay" class="overlay">
+  <div class="panel">
+    <h1 class="title">LUNA</h1>
+    <div class="subtitle">3D SPACE INVADERS</div>
+    <div class="stat-line">HIGH SCORE — <b id="menu-highscore">0</b></div>
+    <div class="stat-line">CREDITS — <b id="menu-credits">0</b></div>
+    <div class="stat-line">CURRENT SHIP — <b id="menu-ship">SCOUT</b></div>
+    <div style="margin-top: 26px;">
+      <button class="btn primary" id="btn-start">Launch</button>
+      <button class="btn gold" id="btn-menu-shop">Hangar Shop</button>
+    </div>
+  </div>
+</div>
+
+<!-- Shop -->
+<div id="shop-overlay" class="overlay hidden">
+  <div class="panel" id="shop-panel">
+    <div class="shop-header">
+      <h2>HANGAR SHOP</h2>
+      <div id="shop-credits">⬡ 0</div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" id="tab-ships">Ships</button>
+      <button class="tab" id="tab-weapons">Weapons</button>
+    </div>
+    <div id="shop-ships" class="card-grid"></div>
+    <div id="shop-weapons" class="hidden"></div>
+    <div class="shop-footer">
+      <button class="btn primary" id="btn-shop-close">Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- Game over -->
+<div id="gameover-overlay" class="overlay hidden">
+  <div class="panel">
+    <div id="gameover-title">SHIP DESTROYED</div>
+    <div class="stat-line">FINAL SCORE — <b id="go-score">0</b></div>
+    <div class="stat-line">WAVE REACHED — <b id="go-wave">1</b></div>
+    <div class="stat-line">CREDITS EARNED — <b id="go-credits">0</b></div>
+    <div class="stat-line hidden" id="go-newrecord" style="color: var(--ok);">★ NEW HIGH SCORE ★</div>
+    <div style="margin-top: 24px;">
+      <button class="btn primary" id="btn-retry">Relaunch</button>
+      <button class="btn gold" id="btn-go-shop">Hangar Shop</button>
+      <button class="btn" id="btn-go-menu">Main Menu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pause -->
+<div id="pause-overlay" class="overlay hidden">
+  <div class="panel">
+    <h2 style="color: var(--neon); letter-spacing: 0.4em; margin-bottom: 20px;">PAUSED</h2>
+    <button class="btn primary" id="btn-resume">Resume</button>
+    <button class="btn" id="btn-abort">Abandon Run</button>
+  </div>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
