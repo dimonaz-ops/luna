@@ -123,14 +123,23 @@ $('btn-go-menu').addEventListener('click', () => { game.stop(); renderMenu(); })
 
 // ---- pause -----------------------------------------------------------------
 
+function togglePause() {
+  if (!game.running) return;
+  const nowPaused = !game.paused;
+  game.setPaused(nowPaused);
+  if (nowPaused) show('pause-overlay');
+  else showNone();
+}
+
 window.addEventListener('keydown', (e) => {
-  if (e.code === 'KeyP' && game.running) {
-    const nowPaused = !game.paused;
-    game.setPaused(nowPaused);
-    if (nowPaused) show('pause-overlay');
-    else showNone();
-  }
+  if (e.code === 'KeyP') togglePause();
 });
+
+$('btn-pause-touch').addEventListener('click', togglePause);
+
+if (window.matchMedia('(pointer: coarse)').matches) {
+  $('hud-bottom').textContent = 'DRAG — MOVE HOLD — FIRE ❚❚ — PAUSE';
+}
 
 $('btn-resume').addEventListener('click', () => {
   game.setPaused(false);

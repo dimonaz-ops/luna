@@ -63,10 +63,36 @@ export class Game {
       this.keys.add(e.code);
     });
     window.addEventListener('keyup', (e) => this.keys.delete(e.code));
-    window.addEventListener('blur', () => this.keys.clear());
+    window.addEventListener('blur', () => { this.keys.clear(); this.endTouch(); });
+
+    // Touch / pointer controls: drag anywhere on the canvas to steer,
+    // hold to keep firing. Also works with a mouse.
+    this.touchId = null;
+    this.touchLastX = 0;
+    this.touchDX = 0;
+    canvas.addEventListener('pointerdown', (e) => {
+      if (this.touchId !== null) return;
+      this.touchId = e.pointerId;
+      this.touchLastX = e.clientX;
+      canvas.setPointerCapture(e.pointerId);
+      sfx.unlock(); // iOS requires audio to start inside a user gesture
+    });
+    canvas.addEventListener('pointermove', (e) => {
+      if (e.pointerId !== this.touchId) return;
+      // Map screen-width drags onto the playfield width, slightly amplified.
+      this.touchDX += (e.clientX - this.touchLastX) * ((BOUND_X * 2) / window.innerWidth) * 1.6;
+      this.touchLastX = e.clientX;
+    });
+    canvas.addEventListener('pointerup', (e) => { if (e.pointerId === this.touchId) this.endTouch(); });
+    canvas.addEventListener('pointercancel', (e) => { if (e.pointerId === this.touchId) this.endTouch(); });
 
     this.clock = new THREE.Clock();
     this.renderer.setAnimationLoop(() => this.tick());
+  }
+
+  endTouch() {
+    this.touchId = null;
+    this.touchDX = 0;
   }
 
   resize() {
@@ -246,9 +272,22 @@ export class Game {
     const left = this.keys.has('ArrowLeft') || this.keys.has('KeyA');
     const right = this.keys.has('ArrowRight') || this.keys.has('KeyD');
     const move = (right ? 1 : 0) - (left ? 1 : 0);
-    this.playerX = THREE.MathUtils.clamp(this.playerX + move * this.ship.speed * dt, -BOUND_X, BOUND_X);
+    let dx = move * this.ship.speed * dt;
+    if (this.touchDX !== 0) {
+      // Cap drag speed so the ship's speed stat still matters on touch.
+      const maxStep = this.ship.speed * 1.4 * dt;
+      dx += THREE.MathUtils.clamp(this.touchDX, -maxStep, maxStep);
+      this.touchDX = 0;
+    }
+    const newX = THREE.MathUtils.clamp(this.playerX + dx, -BOUND_X, BOUND_X);
+    const applied = (newX - this.playerX) / Math.max(this.ship.speed * dt, 1e-6);
+    this.playerX = newX;
     this.playerMesh.position.x = this.playerX;
-    this.playerMesh.rotation.z = THREE.MathUtils.lerp(this.playerMesh.rotation.z, -move * 0.35, dt * 8);
+    this.playerMesh.rotation.z = THREE.MathUtils.lerp(
+      this.playerMesh.rotation.z,
+      THREE.MathUtils.clamp(-applied, -1, 1) * 0.35,
+      dt * 8,
+    );
 
     if (this.invulnTimer > 0) {
       this.invulnTimer -= dt;
@@ -258,7 +297,7 @@ export class Game {
     }
 
     this.fireTimer -= dt;
-    if (this.keys.has('Space') && this.fireTimer <= 0) {
+    if ((this.keys.has('Space') || this.touchId !== null) && this.fireTimer <= 0) {
       this.firePlayerVolley();
       this.fireTimer = fireCooldown(this.profile.upgrades.rate);
     }
