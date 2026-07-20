@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GOLD AI Services — Intelligence, Refined</title>
-<meta name="description" content="GOLD AI Services builds and deploys premium AI solutions — strategy, automation, and custom models that turn data into measurable results.">
+<title>GOLD AI Services — בינה מלאכותית, מזוקקת</title>
+<meta name="description" content="GOLD AI Services מתכננת, בונה ומטמיעה פתרונות AI פרימיום — אסטרטגיה, אוטומציה ומודלים מותאמים שהופכים נתונים לתוצאות מדידות.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='82' font-size='82'>🪙</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --gold-1: #f6d98a;
@@ -30,23 +30,22 @@
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Heebo', system-ui, sans-serif;
     background: var(--bg);
     color: var(--ink);
-    line-height: 1.6;
+    line-height: 1.7;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Ambient gold glow backdrop */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(60% 45% at 70% -5%, rgba(201, 151, 31, 0.22), transparent 60%),
-      radial-gradient(45% 40% at 10% 15%, rgba(232, 189, 99, 0.10), transparent 55%),
+      radial-gradient(60% 45% at 30% -5%, rgba(201, 151, 31, 0.22), transparent 60%),
+      radial-gradient(45% 40% at 90% 15%, rgba(232, 189, 99, 0.10), transparent 55%),
       radial-gradient(50% 50% at 50% 110%, rgba(166, 124, 18, 0.14), transparent 60%),
       var(--bg);
   }
@@ -55,6 +54,7 @@
 
   .wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
+  /* Latin "GOLD" wordmark keeps a serif display feel and stays LTR */
   .gold-text {
     background: var(--gold-grad);
     -webkit-background-clip: text;
@@ -62,6 +62,7 @@
     -webkit-text-fill-color: transparent;
     color: transparent;
   }
+  .en { unicode-bidi: isolate; direction: ltr; font-family: 'Frank Ruhl Libre', serif; }
 
   /* ---------- Nav ---------- */
   header {
@@ -82,9 +83,9 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 1.15rem;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700;
+    font-size: 1.2rem;
     letter-spacing: 0.02em;
   }
   .brand .coin {
@@ -92,22 +93,12 @@
     border-radius: 50%;
     background: var(--gold-grad);
     display: grid; place-items: center;
-    color: #2a1e05; font-size: 0.85rem; font-weight: 700;
+    color: #2a1e05; font-size: 0.8rem; font-weight: 700;
     box-shadow: 0 0 18px rgba(232, 189, 99, 0.5);
   }
-  .nav-links { display: flex; gap: 32px; font-size: 0.92rem; color: var(--muted); }
+  .nav-links { display: flex; gap: 32px; font-size: 0.98rem; color: var(--muted); }
   .nav-links a { transition: color 0.2s; }
   .nav-links a:hover { color: var(--gold-1); }
-  .nav-cta {
-    padding: 9px 20px;
-    border-radius: 999px;
-    background: var(--gold-grad);
-    color: #241a04;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(232, 189, 99, 0.28); }
   .nav-right { display: flex; align-items: center; gap: 16px; }
   .lang-toggle {
     font-size: 0.85rem;
@@ -118,7 +109,17 @@
     transition: color 0.2s, border-color 0.2s;
   }
   .lang-toggle:hover { color: var(--gold-1); border-color: var(--border-strong); }
-  @media (max-width: 720px) { .nav-links { display: none; } }
+  .nav-cta {
+    padding: 9px 22px;
+    border-radius: 999px;
+    background: var(--gold-grad);
+    color: #241a04;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(232, 189, 99, 0.28); }
+  @media (max-width: 760px) { .nav-links { display: none; } }
 
   /* ---------- Hero ---------- */
   .hero { text-align: center; padding: 108px 0 90px; }
@@ -126,38 +127,38 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 7px 16px;
+    padding: 7px 18px;
     border-radius: 999px;
     border: 1px solid var(--border-strong);
     background: var(--panel);
     color: var(--gold-1);
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 0.86rem;
+    letter-spacing: 0.02em;
     margin-bottom: 30px;
   }
   .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-2); box-shadow: 0 0 8px var(--gold-2); }
   .hero h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: clamp(2.6rem, 6.5vw, 4.6rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: 24px;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 900;
+    font-size: clamp(2.7rem, 6.8vw, 4.8rem);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    margin-bottom: 26px;
+    text-wrap: balance;
   }
   .hero p {
-    max-width: 620px;
+    max-width: 640px;
     margin: 0 auto 40px;
-    font-size: clamp(1.02rem, 2.2vw, 1.22rem);
+    font-size: clamp(1.05rem, 2.2vw, 1.25rem);
     color: var(--muted);
   }
   .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
   .btn {
-    padding: 14px 30px;
+    padding: 14px 32px;
     border-radius: 999px;
-    font-weight: 600;
-    font-size: 0.98rem;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, color 0.2s;
     cursor: pointer;
     border: 1px solid transparent;
   }
@@ -177,30 +178,31 @@
     margin-top: 68px;
     flex-wrap: wrap;
   }
-  .stat .num { font-family: 'Fraunces', serif; font-size: 2.1rem; font-weight: 600; }
-  .stat .label { font-size: 0.82rem; color: var(--muted); letter-spacing: 0.04em; }
+  .stat .num { font-family: 'Frank Ruhl Libre', serif; font-size: 2.2rem; font-weight: 700; direction: ltr; }
+  .stat .label { font-size: 0.9rem; color: var(--muted); }
 
   /* ---------- Sections ---------- */
   section { padding: 76px 0; }
   .section-head { text-align: center; margin-bottom: 52px; }
   .section-head h2 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: clamp(1.9rem, 4vw, 2.7rem);
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 4.2vw, 2.9rem);
     letter-spacing: -0.01em;
     margin-bottom: 12px;
+    text-wrap: balance;
   }
-  .section-head p { color: var(--muted); max-width: 540px; margin: 0 auto; }
+  .section-head p { color: var(--muted); max-width: 560px; margin: 0 auto; }
 
   .grid { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); }
   @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
 
   .card {
-    padding: 30px 26px;
+    padding: 30px 28px;
     border-radius: 18px;
     border: 1px solid var(--border);
-    background: linear-gradient(160deg, rgba(232, 189, 99, 0.05), rgba(20, 17, 13, 0.5));
+    background: linear-gradient(200deg, rgba(232, 189, 99, 0.05), rgba(20, 17, 13, 0.5));
     transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
   }
   .card:hover {
@@ -217,22 +219,24 @@
     border: 1px solid var(--border-strong);
     margin-bottom: 18px;
   }
-  .card h3 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.25rem; margin-bottom: 8px; }
-  .card p { color: var(--muted); font-size: 0.94rem; }
+  .card h3 { font-family: 'Frank Ruhl Libre', serif; font-weight: 700; font-size: 1.4rem; margin-bottom: 8px; }
+  .card p { color: var(--muted); font-size: 1rem; }
 
   /* ---------- Steps ---------- */
-  .steps { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); counter-reset: step; }
+  .steps { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); }
   @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
-  .step { padding: 28px 24px; border-radius: 16px; border: 1px solid var(--border); background: var(--panel); }
+  .step { padding: 28px 26px; border-radius: 16px; border: 1px solid var(--border); background: var(--panel); }
   .step .n {
-    font-family: 'Fraunces', serif;
-    font-size: 1.6rem;
-    font-weight: 600;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
     margin-bottom: 10px;
     display: block;
+    direction: ltr;
+    text-align: start;
   }
-  .step h3 { font-size: 1.08rem; margin-bottom: 6px; }
-  .step p { color: var(--muted); font-size: 0.92rem; }
+  .step h3 { font-family: 'Frank Ruhl Libre', serif; font-size: 1.25rem; margin-bottom: 6px; }
+  .step p { color: var(--muted); font-size: 0.98rem; }
 
   /* ---------- CTA ---------- */
   .cta {
@@ -242,18 +246,19 @@
     border: 1px solid var(--border-strong);
     background:
       radial-gradient(70% 120% at 50% 0%, rgba(201, 151, 31, 0.18), transparent 60%),
-      linear-gradient(160deg, rgba(232, 189, 99, 0.06), rgba(14, 12, 17, 0.6));
+      linear-gradient(200deg, rgba(232, 189, 99, 0.06), rgba(14, 12, 17, 0.6));
     position: relative;
     overflow: hidden;
   }
   .cta h2 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: clamp(1.9rem, 4vw, 2.9rem);
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 4.2vw, 3rem);
     margin-bottom: 16px;
     letter-spacing: -0.01em;
+    text-wrap: balance;
   }
-  .cta p { color: var(--muted); max-width: 460px; margin: 0 auto 32px; }
+  .cta p { color: var(--muted); max-width: 480px; margin: 0 auto 32px; }
 
   /* ---------- Footer ---------- */
   footer {
@@ -268,12 +273,12 @@
     flex-wrap: wrap;
     gap: 16px;
     color: var(--muted);
-    font-size: 0.88rem;
+    font-size: 0.92rem;
   }
   .foot-links { display: flex; gap: 24px; }
   .foot-links a:hover { color: var(--gold-1); }
 
-  /* Reveal on scroll — progressive enhancement: hidden only when JS is active */
+  /* Reveal on scroll — progressive enhancement */
   .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .js .reveal.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; transition: none; } }
@@ -285,16 +290,16 @@
   <nav class="wrap">
     <a class="brand" href="#top">
       <span class="coin">Au</span>
-      GOLD <span class="gold-text">AI</span>
+      <span class="en">GOLD <span class="gold-text">AI</span></span>
     </a>
     <div class="nav-links">
-      <a href="#services">Services</a>
-      <a href="#process">Process</a>
-      <a href="#why">Why Us</a>
+      <a href="#services">שירותים</a>
+      <a href="#process">התהליך</a>
+      <a href="#why">למה אנחנו</a>
     </div>
     <div class="nav-right">
-      <a class="lang-toggle" href="he/" hreflang="he" lang="he">עברית</a>
-      <a class="nav-cta" href="#contact">Book a Call</a>
+      <a class="lang-toggle" href="../" hreflang="en" lang="en">EN</a>
+      <a class="nav-cta" href="#contact">לתיאום שיחה</a>
     </div>
   </nav>
 </header>
@@ -303,56 +308,56 @@
 
   <!-- Hero -->
   <section class="hero wrap">
-    <span class="eyebrow reveal"><span class="dot"></span> Premium AI, delivered</span>
-    <h1 class="reveal">Intelligence,<br><span class="gold-text">refined</span> for your business.</h1>
-    <p class="reveal">GOLD AI Services designs, builds, and deploys custom AI systems — automation, agents, and models that turn your data into measurable results.</p>
+    <span class="eyebrow reveal"><span class="dot"></span> בינה מלאכותית פרימיום</span>
+    <h1 class="reveal">אינטליגנציה,<br><span class="gold-text">מזוקקת</span> עבור העסק שלך.</h1>
+    <p class="reveal"><span class="en gold-text">GOLD AI</span> מתכננת, בונה ומטמיעה מערכות AI מותאמות אישית — אוטומציה, סוכנים ומודלים שהופכים את הנתונים שלך לתוצאות מדידות.</p>
     <div class="hero-actions reveal">
-      <a class="btn btn-primary" href="#contact">Start Your Project</a>
-      <a class="btn btn-ghost" href="#services">Explore Services</a>
+      <a class="btn btn-primary" href="#contact">התחילו פרויקט</a>
+      <a class="btn btn-ghost" href="#services">לשירותים שלנו</a>
     </div>
     <div class="stats">
-      <div class="stat reveal"><div class="num gold-text">120+</div><div class="label">Models Deployed</div></div>
-      <div class="stat reveal"><div class="num gold-text">40%</div><div class="label">Avg. Cost Saved</div></div>
-      <div class="stat reveal"><div class="num gold-text">24/7</div><div class="label">Support</div></div>
+      <div class="stat reveal"><div class="num gold-text">120+</div><div class="label">מודלים הוטמעו</div></div>
+      <div class="stat reveal"><div class="num gold-text">40%</div><div class="label">חיסכון ממוצע</div></div>
+      <div class="stat reveal"><div class="num gold-text">24/7</div><div class="label">תמיכה</div></div>
     </div>
   </section>
 
   <!-- Services -->
   <section id="services" class="wrap">
     <div class="section-head reveal">
-      <h2>What we <span class="gold-text">deliver</span></h2>
-      <p>Focused, high-impact AI capabilities — no bloat, just what moves the needle.</p>
+      <h2>מה אנחנו <span class="gold-text">מספקים</span></h2>
+      <p>יכולות AI ממוקדות ובעלות אימפקט — בלי מיותר, רק מה שמזיז את המחט.</p>
     </div>
     <div class="grid">
       <div class="card reveal">
         <div class="icon">🤖</div>
-        <h3>AI Automation</h3>
-        <p>Replace repetitive workflows with reliable agents that work around the clock and scale on demand.</p>
+        <h3>אוטומציה חכמה</h3>
+        <p>החליפו תהליכים חוזרים בסוכנים אמינים שעובדים מסביב לשעון ומתרחבים לפי הצורך.</p>
       </div>
       <div class="card reveal">
         <div class="icon">🧠</div>
-        <h3>Custom Models</h3>
-        <p>Fine-tuned models built on your data — accurate, private, and tailored to your domain.</p>
+        <h3>מודלים מותאמים</h3>
+        <p>מודלים מכווננים על הנתונים שלכם — מדויקים, פרטיים ומותאמים לתחום שלכם.</p>
       </div>
       <div class="card reveal">
         <div class="icon">💬</div>
-        <h3>Conversational AI</h3>
-        <p>Assistants and chatbots that understand context and speak in your brand's voice.</p>
+        <h3>AI שיחתי</h3>
+        <p>עוזרים וצ׳אטבוטים שמבינים הקשר ומדברים בקול המותג שלכם.</p>
       </div>
       <div class="card reveal">
         <div class="icon">📊</div>
-        <h3>Data Intelligence</h3>
-        <p>Turn raw data into forecasts, insights, and dashboards that drive better decisions.</p>
+        <h3>בינת נתונים</h3>
+        <p>הפכו נתונים גולמיים לתחזיות, תובנות ולוחות מחוונים שמובילים להחלטות טובות יותר.</p>
       </div>
       <div class="card reveal">
         <div class="icon">⚙️</div>
-        <h3>AI Integration</h3>
-        <p>Seamlessly embed AI into your existing tools, APIs, and product stack.</p>
+        <h3>אינטגרציית AI</h3>
+        <p>שלבו AI בצורה חלקה בכלים, ב־API ובמערכות הקיימות שלכם.</p>
       </div>
       <div class="card reveal">
         <div class="icon">🛡️</div>
-        <h3>AI Strategy</h3>
-        <p>A clear, prioritized roadmap that aligns AI investment with real business value.</p>
+        <h3>אסטרטגיית AI</h3>
+        <p>מפת דרכים ברורה וממוקדת שמיישרת את ההשקעה ב־AI עם ערך עסקי אמיתי.</p>
       </div>
     </div>
   </section>
@@ -360,24 +365,24 @@
   <!-- Process -->
   <section id="process" class="wrap">
     <div class="section-head reveal">
-      <h2>The <span class="gold-text">golden</span> path</h2>
-      <p>From idea to production in three deliberate steps.</p>
+      <h2>הדרך של <span class="en gold-text">GOLD</span></h2>
+      <p>מרעיון לייצור בשלושה צעדים מדודים.</p>
     </div>
     <div class="steps">
       <div class="step reveal">
         <span class="n gold-text">01</span>
-        <h3>Discover</h3>
-        <p>We map your goals, data, and constraints to find the highest-leverage opportunities.</p>
+        <h3>גילוי</h3>
+        <p>אנחנו ממפים את המטרות, הנתונים והאילוצים שלכם כדי לאתר את ההזדמנויות בעלות המינוף הגבוה ביותר.</p>
       </div>
       <div class="step reveal">
         <span class="n gold-text">02</span>
-        <h3>Build</h3>
-        <p>We prototype fast, iterate with your feedback, and engineer for reliability.</p>
+        <h3>בנייה</h3>
+        <p>אנחנו בונים אב־טיפוס במהירות, משפרים לפי המשוב שלכם ומהנדסים לאמינות.</p>
       </div>
       <div class="step reveal">
         <span class="n gold-text">03</span>
-        <h3>Scale</h3>
-        <p>We deploy, monitor, and optimize — so your AI keeps compounding value.</p>
+        <h3>הרחבה</h3>
+        <p>אנחנו מטמיעים, מנטרים ומייעלים — כדי שה־AI שלכם ימשיך לצבור ערך.</p>
       </div>
     </div>
   </section>
@@ -385,24 +390,24 @@
   <!-- Why Us -->
   <section id="why" class="wrap">
     <div class="section-head reveal">
-      <h2>Why <span class="gold-text">GOLD AI</span></h2>
-      <p>The standard, set in gold.</p>
+      <h2>למה <span class="en gold-text">GOLD AI</span></h2>
+      <p>הסטנדרט, מוגדר ב־<span class="en gold-text">GOLD</span>.</p>
     </div>
     <div class="grid">
       <div class="card reveal">
         <div class="icon">⚡</div>
-        <h3>Fast to Value</h3>
-        <p>Working prototypes in weeks, not quarters — you see results before you commit at scale.</p>
+        <h3>ערך מהיר</h3>
+        <p>אב־טיפוס עובד תוך שבועות, לא רבעונים — אתם רואים תוצאות עוד לפני שאתם מתחייבים בגדול.</p>
       </div>
       <div class="card reveal">
         <div class="icon">🔒</div>
-        <h3>Private by Design</h3>
-        <p>Your data stays yours. Secure, compliant, and built for enterprise trust.</p>
+        <h3>פרטיות מובנית</h3>
+        <p>הנתונים שלכם נשארים שלכם. מאובטח, תואם רגולציה ובנוי לאמון ארגוני.</p>
       </div>
       <div class="card reveal">
         <div class="icon">🏆</div>
-        <h3>Premium Craft</h3>
-        <p>Senior engineers only. Every deliverable is polished, documented, and production-ready.</p>
+        <h3>עבודת פרימיום</h3>
+        <p>מהנדסים בכירים בלבד. כל תוצר מלוטש, מתועד ומוכן לייצור.</p>
       </div>
     </div>
   </section>
@@ -410,9 +415,9 @@
   <!-- CTA -->
   <section id="contact" class="wrap">
     <div class="cta reveal">
-      <h2>Ready to turn AI into <span class="gold-text">GOLD</span>?</h2>
-      <p>Book a free 30-minute strategy call. We'll map your first high-impact AI win — no pitch, just value.</p>
-      <a class="btn btn-primary" href="mailto:hello@goldai.services?subject=Strategy%20Call">Book a Call</a>
+      <h2>מוכנים להפוך AI ל־<span class="en gold-text">GOLD</span>?</h2>
+      <p>קבעו שיחת אסטרטגיה חינם ל־30 דקות. נמפה יחד את הניצחון המשמעותי הראשון שלכם ב־AI — בלי מכירה, רק ערך.</p>
+      <a class="btn btn-primary" href="mailto:hello@goldai.services?subject=%D7%A9%D7%99%D7%97%D7%AA%20%D7%90%D7%A1%D7%98%D7%A8%D7%98%D7%92%D7%99%D7%94">לתיאום שיחה</a>
     </div>
   </section>
 
@@ -420,22 +425,22 @@
 
 <footer>
   <div class="wrap foot">
-    <div class="brand" style="font-size:1rem;">
-      <span class="coin">Au</span> GOLD <span class="gold-text">AI</span>
+    <div class="brand" style="font-size:1.05rem;">
+      <span class="coin">Au</span> <span class="en">GOLD <span class="gold-text">AI</span></span>
     </div>
     <div class="foot-links">
-      <a href="#services">Services</a>
-      <a href="#process">Process</a>
-      <a href="#contact">Contact</a>
+      <a href="#services">שירותים</a>
+      <a href="#process">התהליך</a>
+      <a href="#contact">צור קשר</a>
     </div>
-    <div>© 2026 GOLD AI Services</div>
+    <div>© 2026 <span class="en">GOLD AI Services</span></div>
   </div>
 </footer>
 
 <script>
   document.documentElement.classList.add('js');
   const io = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
+    entries.forEach((e) => {
       if (e.isIntersecting) {
         e.target.style.transitionDelay = (e.target.dataset.d || 0) + 'ms';
         e.target.classList.add('in');
@@ -444,8 +449,7 @@
     });
   }, { threshold: 0.12 });
 
-  document.querySelectorAll('.reveal').forEach((el, i) => {
-    // stagger cards within their group
+  document.querySelectorAll('.reveal').forEach((el) => {
     const siblings = el.parentElement.querySelectorAll('.reveal');
     el.dataset.d = (Array.from(siblings).indexOf(el) % 6) * 70;
     io.observe(el);
