@@ -1,6 +1,6 @@
-# Static site — no build step; publish the repo root.
+# Static site — no build step; publish the GOLD AI landing page.
 [build]
-  publish = "."
+  publish = "gold-ai"
 
 [[headers]]
   for = "/*"
